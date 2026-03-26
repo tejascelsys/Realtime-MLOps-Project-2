@@ -1,0 +1,17 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: ClusterServingRuntime
+metadata:
+  name: sklearn-runtime
+spec:
+  supportedModelFormats:
+    - name: sklearn
+      version: "1"
+      autoSelect: true
+  containers:
+    - name: kserve-container
+      image: yathin28/churn-model:latest
+      args:
+        - --model_name={{.Name}}
+        - --model_dir=/mnt/models
+      ports:
+        - containerPort: 8080
